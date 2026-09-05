@@ -1,0 +1,7 @@
+main.py
+pyproject.toml
+tg_notion_inbox.egg-info/PKG-INFO
+tg_notion_inbox.egg-info/SOURCES.txt
+tg_notion_inbox.egg-info/dependency_links.txt
+tg_notion_inbox.egg-info/requires.txt
+tg_notion_inbox.egg-info/top_level.txt
