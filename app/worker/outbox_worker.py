@@ -8,6 +8,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 
 from aiogram import Bot
@@ -53,12 +54,10 @@ class OutboxWorker:
 
             if processed == 0:
                 # Ждём либо новый тик, либо сигнал остановки — что раньше.
-                try:
+                with contextlib.suppress(TimeoutError):
                     await asyncio.wait_for(
-                        self._stopping.wait(), timeout=self._poll_interval
-                    )
-                except asyncio.TimeoutError:
-                    pass
+                        self._stopping.wait(), timeout=self._poll_interval)
+
         log.info("Воркер остановлен")
 
     async def _tick(self) -> int:

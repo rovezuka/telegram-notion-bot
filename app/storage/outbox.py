@@ -63,7 +63,7 @@ class OutboxRow:
     attempts: int
 
     @classmethod
-    def from_db(cls, row: aiosqlite.Row) -> "OutboxRow":
+    def from_db(cls, row: aiosqlite.Row) -> OutboxRow:
         return cls(
             id=row["id"],
             idempotency_key=row["idempotency_key"],

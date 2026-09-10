@@ -1,5 +1,15 @@
-main.py
 pyproject.toml
+app/__init__.py
+app/config.py
+app/main.py
+app/bot/__init__.py
+app/domain/__init__.py
+app/domain/models.py
+app/domain/parser.py
+app/notion/__init__.py
+app/storage/__init__.py
+app/worker/__init__.py
+tests/test_parser.py
 tg_notion_inbox.egg-info/PKG-INFO
 tg_notion_inbox.egg-info/SOURCES.txt
 tg_notion_inbox.egg-info/dependency_links.txt

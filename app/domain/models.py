@@ -67,7 +67,7 @@ class InboxItem:
         return json.dumps(data, ensure_ascii=False)
 
     @classmethod
-    def from_json(cls, raw: str) -> "InboxItem":
+    def from_json(cls, raw: str) -> InboxItem:
         data = json.loads(raw)
         return cls(
             title=data["title"],

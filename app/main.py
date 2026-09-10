@@ -9,6 +9,7 @@
 from __future__ import annotations
 
 import asyncio
+import contextlib
 import logging
 import sys
 
@@ -63,7 +64,7 @@ async def run(settings: Settings) -> None:
                   "в Connections у страницы с базой.")
         await notion.aclose()
         await outbox.close()
-        raise SystemExit(1)
+        raise SystemExit(1) from e
 
     bot = Bot(
         settings.telegram_token,
@@ -100,10 +101,8 @@ async def run(settings: Settings) -> None:
 def main() -> None:
     settings = get_settings()
     setup_logging(settings.log_level)
-    try:
+    with contextlib.suppress(KeyboardInterrupt, SystemExit):
         asyncio.run(run(settings))
-    except (KeyboardInterrupt, SystemExit):
-        pass
 
 
 if __name__ == "__main__":
