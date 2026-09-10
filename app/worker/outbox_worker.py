@@ -55,8 +55,7 @@ class OutboxWorker:
             if processed == 0:
                 # Ждём либо новый тик, либо сигнал остановки — что раньше.
                 with contextlib.suppress(TimeoutError):
-                    await asyncio.wait_for(
-                        self._stopping.wait(), timeout=self._poll_interval)
+                    await asyncio.wait_for(self._stopping.wait(), timeout=self._poll_interval)
 
         log.info("Воркер остановлен")
 
@@ -80,8 +79,9 @@ class OutboxWorker:
                 log.error("Задача #%s исчерпала попытки: %s", row.id, e)
                 await self._notify_failure(row, str(e))
             else:
-                log.warning("Задача #%s: временная ошибка, повтор через %.0fс (%s)",
-                            row.id, delay, e)
+                log.warning(
+                    "Задача #%s: временная ошибка, повтор через %.0fс (%s)", row.id, delay, e
+                )
             return
 
         except NotionPermanentError as e:

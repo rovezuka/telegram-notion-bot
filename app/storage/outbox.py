@@ -126,8 +126,7 @@ class Outbox:
                  status, next_attempt_at, created_at, updated_at)
             VALUES (?, ?, ?, ?, ?, 'pending', ?, ?, ?)
             """,
-            (idempotency_key, chat_id, user_id, tg_message_id,
-             item.to_json(), now, now, now),
+            (idempotency_key, chat_id, user_id, tg_message_id, item.to_json(), now, now, now),
         )
         await self.db.commit()
         return cur.lastrowid if cur.rowcount else None
@@ -202,8 +201,9 @@ class Outbox:
         )
         await self.db.commit()
 
-    async def mark_retry(self, row_id: int, attempts: int, error: str,
-                         *, retry_after: float | None = None) -> tuple[str, float]:
+    async def mark_retry(
+        self, row_id: int, attempts: int, error: str, *, retry_after: float | None = None
+    ) -> tuple[str, float]:
         """Экспоненциальный backoff: 2, 4, 8, 16 ... но не больше 10 минут.
 
         Если Notion прислал Retry-After — уважаем его.
@@ -214,7 +214,7 @@ class Outbox:
             await self._mark_dead(row_id, attempts, error)
             return "dead", 0.0
 
-        delay = retry_after if retry_after is not None else min(2 ** attempts, 600)
+        delay = retry_after if retry_after is not None else min(2**attempts, 600)
         now = time.time()
         await self.db.execute(
             """

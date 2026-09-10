@@ -20,8 +20,8 @@ STATUS_INBOX = "Входящие"
 STATUS_PROPERTY_TYPE = "select"
 
 # Ограничения Notion API
-MAX_TEXT_CHUNK = 2000   # максимум символов в одном rich_text-объекте
-MAX_CHILDREN = 100      # максимум блоков в одном запросе создания страницы
+MAX_TEXT_CHUNK = 2000  # максимум символов в одном rich_text-объекте
+MAX_CHILDREN = 100  # максимум блоков в одном запросе создания страницы
 MAX_TITLE = 2000
 
 
@@ -52,9 +52,7 @@ def _paragraph(text: str) -> dict:
     return {
         "object": "block",
         "type": "paragraph",
-        "paragraph": {
-            "rich_text": [{"type": "text", "text": {"content": text}}]
-        },
+        "paragraph": {"rich_text": [{"type": "text", "text": {"content": text}}]},
     }
 
 
@@ -63,43 +61,53 @@ def build_children(item: InboxItem) -> list[dict]:
     blocks: list[dict] = [_paragraph(chunk) for chunk in _chunks(item.body)]
 
     if item.attachments:
-        blocks.append({
-            "object": "block",
-            "type": "heading_3",
-            "heading_3": {
-                "rich_text": [{"type": "text", "text": {"content": "Вложения"}}]
-            },
-        })
+        blocks.append(
+            {
+                "object": "block",
+                "type": "heading_3",
+                "heading_3": {"rich_text": [{"type": "text", "text": {"content": "Вложения"}}]},
+            }
+        )
         for att in item.attachments:
             label = att.file_name or att.kind
             meta = f"{label} · {att.mime_type or att.kind}"
             if att.size:
                 meta += f" · {att.size // 1024} КБ"
-            blocks.append({
-                "object": "block",
-                "type": "bulleted_list_item",
-                "bulleted_list_item": {
-                    "rich_text": [
-                        {"type": "text", "text": {"content": meta}},
-                        {"type": "text",
-                         "text": {"content": f"  (file_id: {att.file_id})"},
-                         "annotations": {"code": True}},
-                    ]
-                },
-            })
+            blocks.append(
+                {
+                    "object": "block",
+                    "type": "bulleted_list_item",
+                    "bulleted_list_item": {
+                        "rich_text": [
+                            {"type": "text", "text": {"content": meta}},
+                            {
+                                "type": "text",
+                                "text": {"content": f"  (file_id: {att.file_id})"},
+                                "annotations": {"code": True},
+                            },
+                        ]
+                    },
+                }
+            )
 
     if item.tg_link:
-        blocks.append({
-            "object": "block",
-            "type": "paragraph",
-            "paragraph": {
-                "rich_text": [{
-                    "type": "text",
-                    "text": {"content": "Открыть в Telegram",
-                             "link": {"url": item.tg_link}},
-                }]
-            },
-        })
+        blocks.append(
+            {
+                "object": "block",
+                "type": "paragraph",
+                "paragraph": {
+                    "rich_text": [
+                        {
+                            "type": "text",
+                            "text": {
+                                "content": "Открыть в Telegram",
+                                "link": {"url": item.tg_link},
+                            },
+                        }
+                    ]
+                },
+            }
+        )
 
     # Если блоков больше лимита — оставляем первые и честно говорим об обрезке.
     if len(blocks) > MAX_CHILDREN:
@@ -110,10 +118,7 @@ def build_children(item: InboxItem) -> list[dict]:
 
 def build_properties(item: InboxItem) -> dict:
     props: dict = {
-        PROP_TITLE: {
-            "title": [{"type": "text",
-                       "text": {"content": item.title[:MAX_TITLE]}}]
-        },
+        PROP_TITLE: {"title": [{"type": "text", "text": {"content": item.title[:MAX_TITLE]}}]},
         PROP_STATUS: {STATUS_PROPERTY_TYPE: {"name": STATUS_INBOX}},
         PROP_SOURCE: {"select": {"name": item.source.value}},
         PROP_PRIORITY: {"select": {"name": item.priority.value}},

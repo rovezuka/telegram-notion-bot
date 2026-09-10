@@ -60,8 +60,10 @@ async def run(settings: Settings) -> None:
         log.info("Notion база подключена: «%s»", title or settings.notion_database_id)
     except NotionError as e:
         log.error("Нет доступа к базе Notion: %s", e)
-        log.error("Проверьте NOTION_DATABASE_ID и что интеграция добавлена "
-                  "в Connections у страницы с базой.")
+        log.error(
+            "Проверьте NOTION_DATABASE_ID и что интеграция добавлена "
+            "в Connections у страницы с базой."
+        )
         await notion.aclose()
         await outbox.close()
         raise SystemExit(1) from e

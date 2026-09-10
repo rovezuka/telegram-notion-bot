@@ -108,9 +108,7 @@ class NotionClient:
             raise NotionTransientError(f"{resp.status_code} от Notion: {resp.text[:300]}")
 
         if resp.status_code >= 400:
-            raise NotionPermanentError(
-                f"{resp.status_code} от Notion: {resp.text[:500]}"
-            )
+            raise NotionPermanentError(f"{resp.status_code} от Notion: {resp.text[:500]}")
 
         return resp.json()
 

@@ -17,8 +17,9 @@ DB_ID = "aaaaaaaabbbbccccddddeeeeeeeeeeee"
 
 
 def test_payload_has_parent_properties_children():
-    item = InboxItem(title="Заголовок", body="Тело", tags=["дом"],
-                     priority=Priority.HIGH, due=date(2026, 12, 25))
+    item = InboxItem(
+        title="Заголовок", body="Тело", tags=["дом"], priority=Priority.HIGH, due=date(2026, 12, 25)
+    )
     payload = build_page_payload(item, DB_ID)
 
     assert payload["parent"] == {"type": "database_id", "database_id": DB_ID}
@@ -54,10 +55,18 @@ def test_children_never_exceed_notion_limit():
 
 def test_attachments_are_rendered_as_list():
     item = InboxItem(
-        title="t", body="b",
-        attachments=[Attachment(kind="document", file_id="AgAD", file_unique_id="u",
-                                file_name="акт.pdf", mime_type="application/pdf",
-                                size=204800)],
+        title="t",
+        body="b",
+        attachments=[
+            Attachment(
+                kind="document",
+                file_id="AgAD",
+                file_unique_id="u",
+                file_name="акт.pdf",
+                mime_type="application/pdf",
+                size=204800,
+            )
+        ],
     )
     blocks = build_children(item)
     types = [b["type"] for b in blocks]
