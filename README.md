@@ -18,6 +18,15 @@ pip install -e ".[dev]"
 cp .env.example .env      # заполнить токены
 python -m app.main
 ```
+### Команда /start
+![Команда /start](docs/bot1.png)
+### Очередь
+![Очередь](docs/bot2.png)
+### Отправка в Notion
+![Отправка в Notion](docs/bot3.png)
+### База в Notion
+![База в Notion](docs/notion.png)
+
 
 ## Настройка Notion
 
