@@ -118,6 +118,14 @@ class NotionClient:
         """POST /v1/pages -> объект страницы (нас интересуют id и url)."""
         return await self._request("POST", "/pages", json=payload)
 
+    async def create_database(self, payload: dict) -> dict:
+        """POST /v1/databases — используется скриптом первичной настройки."""
+        return await self._request("POST", "/databases", json=payload)
+
+    async def search(self, payload: dict) -> dict:
+        """POST /v1/search — найти страницы, к которым подключена интеграция."""
+        return await self._request("POST", "/search", json=payload)
+
     async def retrieve_database(self, database_id: str) -> dict:
         """GET /v1/databases/{id} — используем на старте, чтобы упасть громко.
 
