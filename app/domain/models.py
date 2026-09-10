@@ -53,7 +53,7 @@ class InboxItem:
     priority: Priority = Priority.NONE
     due: date | None = None
     source: Source = Source.TELEGRAM
-    author: str = ""            # "Rostislav (@rostislav, id=123)"
+    author: str = ""  # "Rostislav (@rostislav, id=123)"
     tg_link: str | None = None  # deep-link на исходное сообщение
     attachments: list[Attachment] = field(default_factory=list)
 
@@ -67,7 +67,7 @@ class InboxItem:
         return json.dumps(data, ensure_ascii=False)
 
     @classmethod
-    def from_json(cls, raw: str) -> "InboxItem":
+    def from_json(cls, raw: str) -> InboxItem:
         data = json.loads(raw)
         return cls(
             title=data["title"],

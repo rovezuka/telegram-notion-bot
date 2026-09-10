@@ -73,30 +73,61 @@ def _attachments_of(message: Message) -> list[Attachment]:
 
     if message.photo:
         best = message.photo[-1]  # последний элемент — максимальное разрешение
-        out.append(Attachment(kind="photo", file_id=best.file_id,
-                              file_unique_id=best.file_unique_id, size=best.file_size))
+        out.append(
+            Attachment(
+                kind="photo",
+                file_id=best.file_id,
+                file_unique_id=best.file_unique_id,
+                size=best.file_size,
+            )
+        )
     if message.document:
         d = message.document
-        out.append(Attachment(kind="document", file_id=d.file_id,
-                              file_unique_id=d.file_unique_id, file_name=d.file_name,
-                              mime_type=d.mime_type, size=d.file_size))
+        out.append(
+            Attachment(
+                kind="document",
+                file_id=d.file_id,
+                file_unique_id=d.file_unique_id,
+                file_name=d.file_name,
+                mime_type=d.mime_type,
+                size=d.file_size,
+            )
+        )
     if message.voice:
         v = message.voice
-        out.append(Attachment(kind="voice", file_id=v.file_id,
-                              file_unique_id=v.file_unique_id,
-                              mime_type=v.mime_type, size=v.file_size))
+        out.append(
+            Attachment(
+                kind="voice",
+                file_id=v.file_id,
+                file_unique_id=v.file_unique_id,
+                mime_type=v.mime_type,
+                size=v.file_size,
+            )
+        )
     if message.video:
         v = message.video
-        out.append(Attachment(kind="video", file_id=v.file_id,
-                              file_unique_id=v.file_unique_id,
-                              file_name=v.file_name, mime_type=v.mime_type,
-                              size=v.file_size))
+        out.append(
+            Attachment(
+                kind="video",
+                file_id=v.file_id,
+                file_unique_id=v.file_unique_id,
+                file_name=v.file_name,
+                mime_type=v.mime_type,
+                size=v.file_size,
+            )
+        )
     if message.audio:
         a = message.audio
-        out.append(Attachment(kind="audio", file_id=a.file_id,
-                              file_unique_id=a.file_unique_id,
-                              file_name=a.file_name, mime_type=a.mime_type,
-                              size=a.file_size))
+        out.append(
+            Attachment(
+                kind="audio",
+                file_id=a.file_id,
+                file_unique_id=a.file_unique_id,
+                file_name=a.file_name,
+                mime_type=a.mime_type,
+                size=a.file_size,
+            )
+        )
     return out
 
 
